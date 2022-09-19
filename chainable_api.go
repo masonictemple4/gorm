@@ -284,6 +284,17 @@ func (db *DB) Preload(query string, args ...interface{}) (tx *DB) {
 	return
 }
 
+func (db *DB) VariadicPreload(queries ...string) (tx *DB) {
+	tx = db.getInstance()
+	if tx.Statement.Preloads == nil {
+		tx.Statement.Preloads = map[string][]interface{}{}
+	}
+	for _, q := range queries {
+		tx.Statement.Preloads[q] = nil
+	}
+	return
+}
+
 func (db *DB) Attrs(attrs ...interface{}) (tx *DB) {
 	tx = db.getInstance()
 	tx.Statement.attrs = attrs
